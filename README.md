@@ -11,11 +11,87 @@ $ npm install --save loopback-nodejs-client
 
 ## Usage
 
-```js
-var loopbackNodejsClient = require('loopback-nodejs-client');
+### Without authentification
 
-loopbackNodejsClient('Rainbow');
+```js
+var LoopbackClient = require('loopback-nodejs-client')
+
+var loopbackClient = new LoopbackClient('http://localhost:3000/api');
+
+var Customers = loopbackClient.getModel('customers')
+
+Customers.create({name: 'ido4pro', city: 'plougonvelin'})
+  .then(function (customer) {
+    console.log(customer)
+
+    Customers.find({filter: {where: {name: 'ido4pro'}}})
+      .then(function (customers) {
+        console.log(customers)
+
+      })
+      .catch(function (err) {
+        console.log(err)
+      })
+
+    Customers.count({where: {name: 'ido4pro'}})
+      .then(function (customers) {
+        console.log(customers)
+
+      })
+      .catch(function (err) {
+        console.log(err)
+      })
+
+  })
+  .catch(function (err) {
+    console.log(err)
+  })
 ```
+
+### With authentification
+
+```js
+var loopbackClientWithAuth = new LoopbackClient('http://localhost:3000/api','xxx EMAIL USER xxx', 'xxx PASSWORD xxx')
+
+var Customers = loopbackClient.getModel('customers')
+
+loopbackClient.createToken()
+  .then(function()
+  {
+      
+       Customers.count({where: {name: 'ido4pro'}})
+            .then(function (customers) {
+              console.log(customers)
+      
+            })
+            .catch(function (err) {
+              console.log(err)
+            })
+      
+  })
+
+
+```
+
+## Methods
+
+  
+
+  create(data) --> data = { id: 'xxx', filter: {...} } (filter is optional)
+
+  count(where) --> where = { where : {name: 'xxx'} }, where = { where: {and: [{name: 'xxx'},{city: 'xxx'}] 
+
+  updateAll(data) 
+
+  updateById(data)
+
+  find(filter)
+   
+  findById(data)
+
+  findOne(query)
+
+  deleteById(id)
 
 ## License
 
