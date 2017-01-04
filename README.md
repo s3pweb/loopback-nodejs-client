@@ -90,12 +90,12 @@ Customers.create({name: 'ido4pro', city: 'plougonvelin'})
 ```js
 var loopbackClientWithAuth = new LoopbackClient('http://localhost:3000/api','xxx EMAIL USER xxx', 'xxx PASSWORD xxx')
 
-var Customers = loopbackClient.getModel('customers')
-
-loopbackClient.createToken()
+loopbackClientWithAuth.createToken()
   .then(function()
   {
       
+       var Customers = loopbackClientWithAuth.getModel('customers')
+       
        Customers.count({where: {name: 'ido4pro'}})
             .then(function (customers) {
               console.log(customers)
