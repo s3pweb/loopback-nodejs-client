@@ -127,6 +127,10 @@ loopbackClient.createToken()
   findOne(query)
 
   deleteById(id)
+  
+  
+  Check the test/index.js for more usage
+  
 
 ## License
 
