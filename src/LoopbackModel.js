@@ -27,11 +27,20 @@ class LoopbackModel {
           headers: this.authorization,
           query: query
         }
-      ).on('complete', function (result) {
+      ).on('complete', function (result,response) {
         if (result instanceof Error) {
-          reject(result.message)
+          reject(result.message);
+
         } else {
-          resolve(result)
+          if(response.statusCode != 200)
+          {
+            reject(result)
+          }
+          else
+          {
+            resolve(result);
+          }
+
         }
       });
 
@@ -39,22 +48,39 @@ class LoopbackModel {
     return promise
   }
 
-  post(url, data) {
+  post(url, data,query) {
 
     console.log('url', url)
 
     var promise = new Promise( (resolve, reject) => {
 
-      rest.postJson(url, data,
-        {
-          headers: this.authorization
-        }
-      ).on('complete', function (result) {
+      var options = {
+        headers: this.authorization
+      }
+
+      if(query)
+      {
+        options.query = query
+      }
+
+      rest.postJson(url, data, options
+
+      ).on('complete', function (result,response) {
+
+        console.log('result=',result)
         if (result instanceof Error) {
           reject(result.message);
 
         } else {
-          resolve(result);
+          if(response.statusCode != 200)
+          {
+            reject(result)
+          }
+          else
+          {
+            resolve(result);
+          }
+
         }
       });
 
@@ -74,12 +100,20 @@ class LoopbackModel {
         {
           headers: this.authorization
         }
-      ).on('complete', function (result) {
+      ).on('complete', function (result,response) {
         if (result instanceof Error) {
           reject(result.message);
 
         } else {
-          resolve(result);
+          if(response.statusCode != 200)
+          {
+            reject(result)
+          }
+          else
+          {
+            resolve(result);
+          }
+
         }
       });
 
@@ -99,12 +133,20 @@ class LoopbackModel {
         {
           headers: this.authorization
         }
-      ).on('complete', function (result) {
+      ).on('complete', function (result,response) {
         if (result instanceof Error) {
           reject(result.message);
 
         } else {
-          resolve(result);
+          if(response.statusCode != 200)
+          {
+            reject(result)
+          }
+          else
+          {
+            resolve(result);
+          }
+
         }
       });
 
@@ -130,13 +172,13 @@ class LoopbackModel {
     return this.get(url,where)
   }
 
-  updateAll(data) {
+  updateAll(query, data) {
     var url = `${this.baseUrl}/${this.model}/update`
-    return this.post(url,data)
+    return this.post(url,data,query)
   }
 
-  updateById(data) {
-    var url = `${this.baseUrl}/${this.model}`
+  updateById(id,data) {
+    var url = `${this.baseUrl}/${this.model}/${id}`
     return this.put(url,data)
   }
 

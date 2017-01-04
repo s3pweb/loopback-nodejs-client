@@ -1,4 +1,41 @@
-# loopback-nodejs-client [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+<big><h1 align="center">loopback-nodejs-client</h1></big>
+
+<p align="center">
+  <a href="https://npmjs.org/package/loopback-nodejs-client">
+    <img src="https://img.shields.io/npm/v/loopback-nodejs-client.svg?style=flat-square"
+         alt="NPM Version">
+  </a>
+
+  <a href="https://coveralls.io/r/sguilly/loopback-nodejs-client">
+    <img src="https://img.shields.io/coveralls/sguilly/loopback-nodejs-client.svg?style=flat-square"
+         alt="Coverage Status">
+  </a>
+
+  <a href="https://travis-ci.org/sguilly/loopback-nodejs-client">
+    <img src="https://img.shields.io/travis/sguilly/loopback-nodejs-client.svg?style=flat-square"
+         alt="Build Status">
+  </a>
+
+  <a href="https://npmjs.org/package/loopback-nodejs-client">
+    <img src="http://img.shields.io/npm/dm/loopback-nodejs-client.svg?style=flat-square"
+         alt="Downloads">
+  </a>
+
+  <a href="https://david-dm.org/sguilly/loopback-nodejs-client.svg">
+    <img src="https://david-dm.org/sguilly/loopback-nodejs-client.svg?style=flat-square"
+         alt="Dependency Status">
+  </a>
+
+  <a href="https://github.com/sguilly/loopback-nodejs-client/blob/master/LICENSE">
+    <img src="https://img.shields.io/npm/l/loopback-nodejs-client.svg?style=flat-square"
+         alt="License">
+  </a>
+</p>
+
+<p align="center"><big>
+
+</big></p>
+
 > NodeJS client library with loopback SDK syntax
 
 
@@ -74,16 +111,14 @@ loopbackClient.createToken()
 ```
 
 ## Methods
-
   
-
   create(data) --> data = { id: 'xxx', filter: {...} } (filter is optional)
 
   count(where) --> where = { where : {name: 'xxx'} }, where = { where: {and: [{name: 'xxx'},{city: 'xxx'}] 
 
-  updateAll(data) 
+  updateAll(where,data) 
 
-  updateById(data)
+  updateById(id,where)
 
   find(filter)
    
@@ -95,12 +130,18 @@ loopbackClient.createToken()
 
 ## License
 
-MIT © [Stéphane GUILLY]()
+MIT © [Stéphane GUILLY](http://github.com/sguilly)
 
-
-[npm-image]: https://badge.fury.io/js/loopback-nodejs-client.svg
 [npm-url]: https://npmjs.org/package/loopback-nodejs-client
-[travis-image]: https://travis-ci.org/sguilly/loopback-nodejs-client.svg?branch=master
+[npm-image]: https://img.shields.io/npm/v/loopback-nodejs-client.svg?style=flat-square
+
 [travis-url]: https://travis-ci.org/sguilly/loopback-nodejs-client
-[daviddm-image]: https://david-dm.org/sguilly/loopback-nodejs-client.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/sguilly/loopback-nodejs-client
+[travis-image]: https://img.shields.io/travis/sguilly/loopback-nodejs-client.svg?style=flat-square
+
+[coveralls-url]: https://coveralls.io/r/sguilly/loopback-nodejs-client
+[coveralls-image]: https://img.shields.io/coveralls/sguilly/loopback-nodejs-client.svg?style=flat-square
+
+[depstat-url]: https://david-dm.org/sguilly/loopback-nodejs-client
+[depstat-image]: https://david-dm.org/sguilly/loopback-nodejs-client.svg?style=flat-square
+
+[download-badge]: http://img.shields.io/npm/dm/loopback-nodejs-client.svg?style=flat-square
