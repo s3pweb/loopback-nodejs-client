@@ -50,7 +50,6 @@ class LoopbackModel {
 
   post(url, data,query) {
 
-    console.log('url', url)
 
     var promise = new Promise( (resolve, reject) => {
 
@@ -67,7 +66,6 @@ class LoopbackModel {
 
       ).on('complete', function (result,response) {
 
-        console.log('result=',result)
         if (result instanceof Error) {
           reject(result.message);
 
@@ -92,7 +90,6 @@ class LoopbackModel {
 
   put(url, data) {
 
-    console.log('url', url)
 
     var promise = new Promise( (resolve, reject) => {
 
@@ -125,7 +122,6 @@ class LoopbackModel {
 
   del(url) {
 
-    console.log('url', url)
 
     var promise = new Promise( (resolve, reject) => {
 

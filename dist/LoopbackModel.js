@@ -52,8 +52,6 @@ var LoopbackModel = function () {
     value: function post(url, data, query) {
       var _this2 = this;
 
-      console.log('url', url);
-
       var promise = new Promise(function (resolve, reject) {
 
         var options = {
@@ -66,7 +64,6 @@ var LoopbackModel = function () {
 
         rest.postJson(url, data, options).on('complete', function (result, response) {
 
-          console.log('result=', result);
           if (result instanceof Error) {
             reject(result.message);
           } else {
@@ -85,8 +82,6 @@ var LoopbackModel = function () {
     key: 'put',
     value: function put(url, data) {
       var _this3 = this;
-
-      console.log('url', url);
 
       var promise = new Promise(function (resolve, reject) {
 
@@ -111,8 +106,6 @@ var LoopbackModel = function () {
     key: 'del',
     value: function del(url) {
       var _this4 = this;
-
-      console.log('url', url);
 
       var promise = new Promise(function (resolve, reject) {
 
