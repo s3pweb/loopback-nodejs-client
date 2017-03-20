@@ -25,7 +25,6 @@ class LoopbackClient {
 
   getToken()
   {
-    console.log('1=',this.token)
 
     return this.token
   }
@@ -36,12 +35,10 @@ class LoopbackClient {
 
       if(this.token)
       {
-        console.log('token from cache')
         resolve(this.token);
       }
       else {
 
-        console.log('create token')
 
         var data = {
           email: this.user,
@@ -52,7 +49,6 @@ class LoopbackClient {
 
         ).on('complete', (result) =>{
 
-          //console.log('result=',result)
           if (result instanceof Error) {
             reject(result.message);
 

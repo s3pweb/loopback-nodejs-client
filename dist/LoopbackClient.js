@@ -31,7 +31,6 @@ var LoopbackClient = function () {
   }, {
     key: 'getToken',
     value: function getToken() {
-      console.log('1=', this.token);
 
       return this.token;
     }
@@ -43,11 +42,8 @@ var LoopbackClient = function () {
       var promise = new Promise(function (resolve, reject) {
 
         if (_this.token) {
-          console.log('token from cache');
           resolve(_this.token);
         } else {
-
-          console.log('create token');
 
           var data = {
             email: _this.user,
@@ -56,7 +52,6 @@ var LoopbackClient = function () {
 
           rest.postJson(_this.baseUrl + '/users/login?include=user', data).on('complete', function (result) {
 
-            //console.log('result=',result)
             if (result instanceof Error) {
               reject(result.message);
             } else {
