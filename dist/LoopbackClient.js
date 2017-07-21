@@ -15,9 +15,15 @@ var LoopbackClient = function () {
     this.password = password;
     this.token = null;
     this.baseUrl = baseUrl;
+    this.headers = {};
   }
 
   _createClass(LoopbackClient, [{
+    key: 'setHeaders',
+    value: function setHeaders(headers) {
+      this.headers = headers;
+    }
+  }, {
     key: 'getBaseUrl',
     value: function getBaseUrl() {
       return this.baseUrl;
@@ -41,7 +47,11 @@ var LoopbackClient = function () {
             password: _this.password
           };
 
-          rest.postJson(_this.baseUrl + '/users/login?include=user', data).on('complete', function (result) {
+          var options = {
+            headers: _this.headers
+          };
+
+          rest.postJson(_this.baseUrl + '/users/login?include=user', data, options).on('complete', function (result) {
             if (result instanceof Error) {
               reject(result.message);
             } else {

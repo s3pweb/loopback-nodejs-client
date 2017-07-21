@@ -21,7 +21,12 @@ var idCustomer;
 test("token", (t) => {
    t.plan(1)
 
-  nock('http://localhost:42001', {"encodedQueryParams":true})
+  nock('http://localhost:42001', {
+    "encodedQueryParams":true,
+    "reqheaders": {
+      'x-testheader': 'yes'
+    }
+    })
     .post('/api/users/login', {"email":user,"password":password})
     .query({"include":"user"})
     .reply(200,
@@ -53,7 +58,7 @@ test("token", (t) => {
         'close' ]);
 
   loopbackClient = new LoopbackClient('http://localhost:42001/api',user,password);
-
+  loopbackClient.setHeaders({'x-testheader': 'yes'})
    console.log('loopbackClient',loopbackClient)
 
   loopbackClient.createToken().then((token)=>{

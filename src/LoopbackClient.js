@@ -9,6 +9,11 @@ class LoopbackClient {
     this.password = password;
     this.token = null;
     this.baseUrl = baseUrl;
+    this.headers = {};
+  }
+
+  setHeaders(headers) {
+    this.headers = headers;
   }
 
   getBaseUrl() {
@@ -30,8 +35,12 @@ class LoopbackClient {
           password: this.password
         };
 
+        const options = {
+          headers: this.headers
+        };
+
         rest.postJson(this.baseUrl + '/users/login?include=user',
-          data).on('complete', (result) => {
+          data, options).on('complete', (result) => {
           if (result instanceof Error) {
             reject(result.message);
           } else {

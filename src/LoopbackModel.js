@@ -5,14 +5,15 @@ const rest = require('restler');
 class LoopbackModel {
   constructor(model, tokenClient) {
     this.baseUrl = tokenClient.getBaseUrl();
-    this.authorization = {authorization: tokenClient.getToken()};
+    this.headers = tokenClient.headers;
+    this.headers.authorization = tokenClient.getToken();
     this.model = model
   }
 
   get(url, query) {
     return new Promise((resolve, reject) => {
       rest.get(url, {
-          headers: this.authorization,
+          headers: this.headers,
           query: query
         }
       ).on('complete', function (result, response) {
@@ -35,7 +36,7 @@ class LoopbackModel {
   post(url, data, query) {
     return new Promise((resolve, reject) => {
       const options = {
-        headers: this.authorization
+        headers: this.headers
       };
       if (query) {
         options.query = query
@@ -59,7 +60,7 @@ class LoopbackModel {
   put(url, data) {
     return new Promise((resolve, reject) => {
       rest.putJson(url, data, {
-          headers: this.authorization
+          headers: this.headers
         }
       ).on('complete', function (result, response) {
         if (result instanceof Error) {
@@ -80,7 +81,7 @@ class LoopbackModel {
   del(url) {
     return new Promise((resolve, reject) => {
       rest.del(url, {
-          headers: this.authorization
+          headers: this.headers
         }
       ).on('complete', function (result, response) {
         if (result instanceof Error) {

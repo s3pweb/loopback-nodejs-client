@@ -11,7 +11,8 @@ var LoopbackModel = function () {
     _classCallCheck(this, LoopbackModel);
 
     this.baseUrl = tokenClient.getBaseUrl();
-    this.authorization = { authorization: tokenClient.getToken() };
+    this.headers = tokenClient.headers;
+    this.headers.authorization = tokenClient.getToken();
     this.model = model;
   }
 
@@ -22,13 +23,13 @@ var LoopbackModel = function () {
 
       return new Promise(function (resolve, reject) {
         rest.get(url, {
-          headers: _this.authorization,
+          headers: _this.headers,
           query: query
         }).on('complete', function (result, response) {
           if (result instanceof Error) {
             reject(result.message);
           } else {
-            if (response.statusCode != 200) {
+            if (response.statusCode !== 200) {
               reject(result);
             } else {
               resolve(result);
@@ -44,7 +45,7 @@ var LoopbackModel = function () {
 
       return new Promise(function (resolve, reject) {
         var options = {
-          headers: _this2.authorization
+          headers: _this2.headers
         };
         if (query) {
           options.query = query;
@@ -53,7 +54,7 @@ var LoopbackModel = function () {
           if (result instanceof Error) {
             reject(result.message);
           } else {
-            if (response.statusCode != 200) {
+            if (response.statusCode !== 200) {
               reject(result);
             } else {
               resolve(result);
@@ -69,7 +70,7 @@ var LoopbackModel = function () {
 
       return new Promise(function (resolve, reject) {
         rest.putJson(url, data, {
-          headers: _this3.authorization
+          headers: _this3.headers
         }).on('complete', function (result, response) {
           if (result instanceof Error) {
             reject(result.message);
@@ -90,7 +91,7 @@ var LoopbackModel = function () {
 
       return new Promise(function (resolve, reject) {
         rest.del(url, {
-          headers: _this4.authorization
+          headers: _this4.headers
         }).on('complete', function (result, response) {
           if (result instanceof Error) {
             reject(result.message);
