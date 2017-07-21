@@ -1,9 +1,3 @@
-/**
- * Created by sguilly on 17/11/16.
- */
-/**
- * Created by sguilly on 03/11/16.
- */
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -17,9 +11,7 @@ var LoopbackModel = function () {
     _classCallCheck(this, LoopbackModel);
 
     this.baseUrl = tokenClient.getBaseUrl();
-
     this.authorization = { authorization: tokenClient.getToken() };
-
     this.model = model;
   }
 
@@ -28,8 +20,7 @@ var LoopbackModel = function () {
     value: function get(url, query) {
       var _this = this;
 
-      var promise = new Promise(function (resolve, reject) {
-
+      return new Promise(function (resolve, reject) {
         rest.get(url, {
           headers: _this.authorization,
           query: query
@@ -45,25 +36,20 @@ var LoopbackModel = function () {
           }
         });
       });
-      return promise;
     }
   }, {
     key: 'post',
     value: function post(url, data, query) {
       var _this2 = this;
 
-      var promise = new Promise(function (resolve, reject) {
-
+      return new Promise(function (resolve, reject) {
         var options = {
           headers: _this2.authorization
         };
-
         if (query) {
           options.query = query;
         }
-
         rest.postJson(url, data, options).on('complete', function (result, response) {
-
           if (result instanceof Error) {
             reject(result.message);
           } else {
@@ -75,23 +61,20 @@ var LoopbackModel = function () {
           }
         });
       });
-
-      return promise;
     }
   }, {
     key: 'put',
     value: function put(url, data) {
       var _this3 = this;
 
-      var promise = new Promise(function (resolve, reject) {
-
+      return new Promise(function (resolve, reject) {
         rest.putJson(url, data, {
           headers: _this3.authorization
         }).on('complete', function (result, response) {
           if (result instanceof Error) {
             reject(result.message);
           } else {
-            if (response.statusCode != 200) {
+            if (response.statusCode !== 200) {
               reject(result);
             } else {
               resolve(result);
@@ -99,23 +82,20 @@ var LoopbackModel = function () {
           }
         });
       });
-
-      return promise;
     }
   }, {
     key: 'del',
     value: function del(url) {
       var _this4 = this;
 
-      var promise = new Promise(function (resolve, reject) {
-
+      return new Promise(function (resolve, reject) {
         rest.del(url, {
           headers: _this4.authorization
         }).on('complete', function (result, response) {
           if (result instanceof Error) {
             reject(result.message);
           } else {
-            if (response.statusCode != 200) {
+            if (response.statusCode !== 200) {
               reject(result);
             } else {
               resolve(result);
@@ -123,13 +103,10 @@ var LoopbackModel = function () {
           }
         });
       });
-
-      return promise;
     }
   }, {
     key: 'findById',
     value: function findById(data) {
-
       var url = this.baseUrl + '/' + this.model + '/' + data.id;
       return this.get(url, { filter: data.filter });
     }

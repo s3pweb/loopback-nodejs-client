@@ -1,9 +1,3 @@
-/**
- * Created by sguilly on 17/11/16.
- */
-/**
- * Created by sguilly on 03/11/16.
- */
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -11,7 +5,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var rest = require('restler');
-var LoopbackModel = require('./LoopbackModel.js');
+var LoopbackModel = require(__dirname + '/LoopbackModel.js');
 
 var LoopbackClient = function () {
   function LoopbackClient(baseUrl, user, password) {
@@ -31,7 +25,6 @@ var LoopbackClient = function () {
   }, {
     key: 'getToken',
     value: function getToken() {
-
       return this.token;
     }
   }, {
@@ -39,19 +32,16 @@ var LoopbackClient = function () {
     value: function createToken() {
       var _this = this;
 
-      var promise = new Promise(function (resolve, reject) {
-
+      return new Promise(function (resolve, reject) {
         if (_this.token) {
           resolve(_this.token);
         } else {
-
           var data = {
             email: _this.user,
             password: _this.password
           };
 
           rest.postJson(_this.baseUrl + '/users/login?include=user', data).on('complete', function (result) {
-
             if (result instanceof Error) {
               reject(result.message);
             } else {
@@ -61,8 +51,6 @@ var LoopbackClient = function () {
           });
         }
       });
-
-      return promise;
     }
   }, {
     key: 'getModel',
