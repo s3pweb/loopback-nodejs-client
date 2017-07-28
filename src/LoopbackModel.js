@@ -1,199 +1,143 @@
-/**
- * Created by sguilly on 17/11/16.
- */
-/**
- * Created by sguilly on 03/11/16.
- */
 "use strict";
 
-var rest = require('restler');
+const rest = require('restler');
 
 class LoopbackModel {
-  constructor(model,tokenClient) {
-
-    this.baseUrl = tokenClient.getBaseUrl()
-
-    this.authorization = {authorization: tokenClient.getToken()}
-
+  constructor(model, tokenClient) {
+    this.baseUrl = tokenClient.getBaseUrl();
+    this.headers = tokenClient.headers;
+    this.headers.authorization = tokenClient.getToken();
     this.model = model
   }
 
   get(url, query) {
-
-    var promise = new Promise((resolve, reject) => {
-
-      rest.get(url,
-        {
-          headers: this.authorization,
+    return new Promise((resolve, reject) => {
+      rest.get(url, {
+          headers: this.headers,
           query: query
         }
-      ).on('complete', function (result,response) {
+      ).on('complete', function (result, response) {
         if (result instanceof Error) {
           reject(result.message);
 
         } else {
-          if(response.statusCode != 200)
-          {
+          if (response.statusCode !== 200) {
             reject(result)
           }
-          else
-          {
+          else {
             resolve(result);
           }
 
         }
       });
-
-    })
-    return promise
+    });
   }
 
-  post(url, data,query) {
-
-
-    var promise = new Promise( (resolve, reject) => {
-
-      var options = {
-        headers: this.authorization
-      }
-
-      if(query)
-      {
+  post(url, data, query) {
+    return new Promise((resolve, reject) => {
+      const options = {
+        headers: this.headers
+      };
+      if (query) {
         options.query = query
       }
-
       rest.postJson(url, data, options
-
-      ).on('complete', function (result,response) {
-
+      ).on('complete', function (result, response) {
         if (result instanceof Error) {
           reject(result.message);
-
         } else {
-          if(response.statusCode != 200)
-          {
+          if (response.statusCode !== 200) {
             reject(result)
           }
-          else
-          {
+          else {
             resolve(result);
           }
-
         }
       });
-
     });
-
-    return promise
-
   }
 
   put(url, data) {
-
-
-    var promise = new Promise( (resolve, reject) => {
-
-      rest.putJson(url, data,
-        {
-          headers: this.authorization
+    return new Promise((resolve, reject) => {
+      rest.putJson(url, data, {
+          headers: this.headers
         }
-      ).on('complete', function (result,response) {
+      ).on('complete', function (result, response) {
         if (result instanceof Error) {
           reject(result.message);
-
         } else {
-          if(response.statusCode != 200)
-          {
+          if(response.statusCode !== 200) {
             reject(result)
           }
-          else
-          {
+          else {
             resolve(result);
           }
-
         }
       });
 
     });
-
-    return promise
-
   }
 
   del(url) {
-
-
-    var promise = new Promise( (resolve, reject) => {
-
-      rest.del(url,
-        {
-          headers: this.authorization
+    return new Promise((resolve, reject) => {
+      rest.del(url, {
+          headers: this.headers
         }
-      ).on('complete', function (result,response) {
+      ).on('complete', function (result, response) {
         if (result instanceof Error) {
           reject(result.message);
-
         } else {
-          if(response.statusCode != 200)
-          {
+          if (response.statusCode !== 200) {
             reject(result)
           }
-          else
-          {
+          else {
             resolve(result);
           }
-
         }
       });
-
     });
-
-    return promise
-
   }
 
   findById(data) {
-
-    var url = `${this.baseUrl}/${this.model}/${data.id}`
-    return this.get(url,  {filter: data.filter})
+    const url = `${this.baseUrl}/${this.model}/${data.id}`;
+    return this.get(url, {filter: data.filter});
   }
 
   create(data) {
-    var url = `${this.baseUrl}/${this.model}`
-    return this.post(url,data)
+    const url = `${this.baseUrl}/${this.model}`;
+    return this.post(url, data);
   }
 
   count(where) {
-    var url = `${this.baseUrl}/${this.model}/count`
-    return this.get(url,where)
+    const url = `${this.baseUrl}/${this.model}/count`;
+    return this.get(url, where);
   }
 
   updateAll(query, data) {
-    var url = `${this.baseUrl}/${this.model}/update`
-    return this.post(url,data,query)
+    const url = `${this.baseUrl}/${this.model}/update`;
+    return this.post(url, data, query);
   }
 
-  updateById(id,data) {
-    var url = `${this.baseUrl}/${this.model}/${id}`
-    return this.put(url,data)
+  updateById(id, data) {
+    const url = `${this.baseUrl}/${this.model}/${id}`;
+    return this.put(url, data);
   }
 
   find(filter) {
-    var url = `${this.baseUrl}/${this.model}`
-    return this.get(url,filter)
+    const url = `${this.baseUrl}/${this.model}`;
+    return this.get(url, filter);
   }
 
   findOne(query) {
-    var url = `${this.baseUrl}/${this.model}/findOne`
-    return this.get(url,query)
+    const url = `${this.baseUrl}/${this.model}/findOne`;
+    return this.get(url, query);
   }
 
   deleteById(id) {
-    var url = `${this.baseUrl}/${this.model}/${id}`
-    return this.del(url)
+    const url = `${this.baseUrl}/${this.model}/${id}`;
+    return this.del(url);
   }
-
 }
 
 
-module.exports = LoopbackModel
+module.exports = LoopbackModel;
