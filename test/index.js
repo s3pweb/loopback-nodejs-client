@@ -1,5 +1,5 @@
 var test = require('tape')
-var LoopbackClient = require('../dist')
+var LoopbackClient = require('../src')
 
 // to test the es6 version
 //import test from "tape"

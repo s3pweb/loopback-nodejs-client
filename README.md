@@ -110,7 +110,39 @@ loopbackClientWithAuth.createToken()
 
 ```
 
-## Methods
+### With custom login path
+
+```js
+
+
+var loopbackClientWithAuth = new LoopbackClient('http://localhost:3000/api','xxx EMAIL USER xxx', 'xxx PASSWORD xxx')
+
+
+// Default Value is : '/users/login?include=user'
+loopbackClientWithAuth.setCustomLoginPath('/user/login?include=user')
+
+loopbackClientWithAuth.createToken()
+  .then(function()
+  {
+      
+       var Customers = loopbackClientWithAuth.getModel('customers')
+       
+       Customers.count({where: {name: 'ido4pro'}})
+            .then(function (customers) {
+              console.log(customers)
+      
+            })
+            .catch(function (err) {
+              console.log(err)
+            })
+      
+  })
+
+```
+
+# Methods
+
+  Try to be compliant with https://loopback.io/doc/en/lb3/Working-with-data.html
   
   create(data) --> data = { id: 'xxx', filter: {...} } (filter is optional)
 
@@ -132,7 +164,15 @@ loopbackClientWithAuth.createToken()
   Check the test/index.js for more usage
   
 
-## License
+# DEBUG
+
+This lib use debug (https://github.com/visionmedia/debug) to log request
+
+Activate log trace with environment variable "DEBUG=LoopBackClient"
+
+example : DEBUG=LoopBackClient npm run test
+
+# License
 
 MIT © [Stéphane GUILLY](http://github.com/sguilly)
 

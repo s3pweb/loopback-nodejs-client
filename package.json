@@ -1,18 +1,18 @@
 {
   "name": "loopback-nodejs-client",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
-  "main": "dist/index.js",
+  "main": "src/index.js",
   "files": [
     "bin/",
-    "dist/"
+    "src/"
   ],
   "scripts": {
     "clean": "rimraf dist",
     "lint": "eslint src test",
     "check": "npm run lint -s && dependency-check package.json --entry src",
     "watch": "watch 'npm run build' src test",
-    "test": "babel-node test/index.js | tspec",
+    "test": "node test/index.js | tspec",
     "prebuild": "npm run check -s && npm run clean -s",
     "build": "babel --optional runtime src -d dist",
     "postbuild": "npm run test -s",
@@ -57,6 +57,7 @@
     "watch": "^0.16.0"
   },
   "dependencies": {
+    "debug": "^3.1.0",
     "nock": "^9.0.2",
     "restler": "^3.4.0"
   }

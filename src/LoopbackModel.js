@@ -2,6 +2,8 @@
 
 const rest = require('restler');
 
+const debug = require('debug')('LoopBackClient')
+
 class LoopbackModel {
   constructor(model, tokenClient) {
     this.baseUrl = tokenClient.getBaseUrl();
@@ -12,6 +14,9 @@ class LoopbackModel {
 
   get(url, query) {
     return new Promise((resolve, reject) => {
+
+      debug('get',url,this.headers,query)
+
       rest.get(url, {
           headers: this.headers,
           query: query
@@ -34,6 +39,9 @@ class LoopbackModel {
   }
 
   post(url, data, query) {
+
+    debug('post',url,this.headers,data,query)
+
     return new Promise((resolve, reject) => {
       const options = {
         headers: this.headers
@@ -58,6 +66,9 @@ class LoopbackModel {
   }
 
   put(url, data) {
+
+    debug('put',url,this.headers,data)
+
     return new Promise((resolve, reject) => {
       rest.putJson(url, data, {
           headers: this.headers
@@ -79,6 +90,9 @@ class LoopbackModel {
   }
 
   del(url) {
+
+    debug('delete',url,this.headers)
+
     return new Promise((resolve, reject) => {
       rest.del(url, {
           headers: this.headers

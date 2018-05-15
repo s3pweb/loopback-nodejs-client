@@ -1,2 +1,2 @@
-import LoopbackClient from './LoopbackClient'
-module.exports = LoopbackClient;
+//import LoopbackClient from './LoopbackClient'
+module.exports = require('./LoopbackClient');
