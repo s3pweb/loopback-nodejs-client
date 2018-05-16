@@ -89,6 +89,30 @@ class LoopbackModel {
     });
   }
 
+  patch(url, data) {
+
+    debug('patch',url,this.headers,data)
+
+    return new Promise((resolve, reject) => {
+      rest.patchJson(url, data, {
+          headers: this.headers
+        }
+      ).on('complete', function (result, response) {
+        if (result instanceof Error) {
+          reject(result.message);
+        } else {
+          if(response.statusCode !== 200) {
+            reject(result)
+          }
+          else {
+            resolve(result);
+          }
+        }
+      });
+
+    });
+  }
+
   del(url) {
 
     debug('delete',url,this.headers)
