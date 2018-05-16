@@ -137,6 +137,11 @@ class LoopbackModel {
     return this.put(url, data);
   }
 
+  updateAttributesById(id, data) {
+    const url = `${this.baseUrl}/${this.model}/${id}`;
+    return this.patch(url, data);
+  }
+
   find(filter) {
     const url = `${this.baseUrl}/${this.model}`;
     return this.get(url, filter);
