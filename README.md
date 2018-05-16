@@ -150,7 +150,9 @@ loopbackClientWithAuth.createToken()
 
   updateAll(where,data) 
 
-  updateById(id,where)
+  updateById(id,data)
+
+  updateAttributesById(id,data)
 
   find(filter)
    
