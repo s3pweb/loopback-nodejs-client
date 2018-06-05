@@ -402,3 +402,56 @@ test("delete", (t) => {
     })
 
 })
+
+
+test("upsertWithWhere", (t) => {
+  t.plan(1)
+
+  nock('http://localhost:42001', {"encodedQueryParams":true})
+    .post('/api/customers/upsertWithWhere', {"city":"nantes"})
+    .query(function(actualQueryObject){
+      // do some compare with the actual Query Object
+      // return true for matched
+      // return false for not matched
+
+      console.log('actualQueryObject',actualQueryObject)
+      return actualQueryObject.where.name == 'ido4pro' ? true : false  ;
+    })
+    .reply(200, {"count":1}, [ 'Vary',
+      'Origin, Accept-Encoding',
+      'Access-Control-Allow-Credentials',
+      'true',
+      'X-XSS-Protection',
+      '1; mode=block',
+      'X-Frame-Options',
+      'DENY',
+      'X-Download-Options',
+      'noopen',
+      'X-Content-Type-Options',
+      'nosniff',
+      'Content-Type',
+      'application/json; charset=utf-8',
+      'Content-Length',
+      '12',
+      'ETag',
+      'W/"c-d07cdU1Uym2u//VIRStBDQ"',
+      'Date',
+      'Wed, 04 Jan 2017 16:19:16 GMT',
+      'Connection',
+      'close' ]);
+
+
+
+  var Customers = loopbackClient.getModel('customers')
+
+
+  Customers.upsertWithWhere({where:{name:'ido4pro'}},{city: 'nantes'})
+    .then(function (value) {
+      t.equal(true,value.count > 0)
+
+    })
+    .catch(function (err) {
+      console.log(err)
+    })
+
+})

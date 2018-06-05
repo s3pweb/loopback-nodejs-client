@@ -146,9 +146,9 @@ loopbackClientWithAuth.createToken()
   
   create(data) --> data = { id: 'xxx', filter: {...} } (filter is optional)
 
-  count(where) --> where = { where : {name: 'xxx'} }, where = { where: {and: [{name: 'xxx'},{city: 'xxx'}] 
+  count(query) --> query = { where : {name: 'xxx'} }, where = { where: {and: [{name: 'xxx'},{city: 'xxx'}] 
 
-  updateAll(where,data) 
+  updateAll(query,data) --> query = { where : {name: 'xxx'} }, where = { where: {and: [{name: 'xxx'},{city: 'xxx'}] 
 
   updateById(id,data)
 
@@ -161,6 +161,16 @@ loopbackClientWithAuth.createToken()
   findOne(query)
 
   deleteById(id)
+
+  replaceOrCreate(data)
+
+  upsertWithWhere(query,data) --> query = { where : {name: 'xxx'} }
+
+  replaceOrCreate(data)
+
+  
+
+
   
   
   Check the test/index.js for more usage

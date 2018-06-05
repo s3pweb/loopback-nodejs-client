@@ -180,6 +180,16 @@ class LoopbackModel {
     const url = `${this.baseUrl}/${this.model}/${id}`;
     return this.del(url);
   }
+
+  upsertWithWhere(query,data) {
+    const url = `${this.baseUrl}/${this.model}/upsertWithWhere`;
+    return this.post(url,data,query);
+  }
+
+  replaceOrCreate(data) {
+    const url = `${this.baseUrl}/${this.model}/replaceOrCreate`;
+    return this.post(url,data);
+  }
 }
 
 
