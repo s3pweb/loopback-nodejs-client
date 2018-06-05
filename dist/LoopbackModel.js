@@ -193,6 +193,18 @@ var LoopbackModel = function () {
       var url = this.baseUrl + '/' + this.model + '/' + id;
       return this.del(url);
     }
+  }, {
+    key: 'upsertWithWhere',
+    value: function upsertWithWhere(query, data) {
+      var url = this.baseUrl + '/' + this.model + '/upsertWithWhere';
+      return this.post(url, data, query);
+    }
+  }, {
+    key: 'replaceOrCreate',
+    value: function replaceOrCreate(data) {
+      var url = this.baseUrl + '/' + this.model + '/replaceOrCreate';
+      return this.post(url, data);
+    }
   }]);
 
   return LoopbackModel;

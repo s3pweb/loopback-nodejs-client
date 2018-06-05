@@ -190,6 +190,11 @@ class LoopbackModel {
     const url = `${this.baseUrl}/${this.model}/replaceOrCreate`;
     return this.post(url,data);
   }
+
+  remote(name,data) {
+    const url = `${this.baseUrl}/${this.model}/${name}`;
+    return this.post(url,data);
+  }
 }
 
 
