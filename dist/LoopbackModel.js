@@ -205,6 +205,12 @@ var LoopbackModel = function () {
       var url = this.baseUrl + '/' + this.model + '/replaceOrCreate';
       return this.post(url, data);
     }
+  }, {
+    key: 'remote',
+    value: function remote(name, data) {
+      var url = this.baseUrl + '/' + this.model + '/' + name;
+      return this.post(url, data);
+    }
   }]);
 
   return LoopbackModel;

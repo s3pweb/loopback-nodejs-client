@@ -191,9 +191,16 @@ class LoopbackModel {
     return this.post(url,data);
   }
 
-  remote(name,data) {
+  remote(name,query,data) {
+
+    if(query && !data)   
+    {
+      data = query
+      query = null
+    }
+
     const url = `${this.baseUrl}/${this.model}/${name}`;
-    return this.post(url,data);
+    return this.post(url,data,query);
   }
 }
 
