@@ -124,8 +124,13 @@ test("find", (t) => {
       // return true for matched
       // return false for not matched
 
+      //var actualQueryObject = JSON.parse(query)
+
       console.log('actualQueryObject',actualQueryObject)
-      return actualQueryObject.filter.where.name == 'ido4pro' ? true : false  ;
+
+      
+
+      return actualQueryObject.filter = '{"where":{"name":"ido4pro"}}' ? true : false  ;
     })
     .reply(200, [{"name":"ido4pro","id":idCustomer,"city":"plougonvelin"}], [ 'Vary',
       'Origin, Accept-Encoding',
@@ -178,7 +183,7 @@ test("findOne", (t) => {
       // return false for not matched
 
       console.log('actualQueryObject',actualQueryObject)
-      return actualQueryObject.filter.where.name == 'ido4pro' ? true : false  ;
+      return actualQueryObject.filter = '{"where":{"name":"ido4pro"}}' ? true : false  ;
     })
     .reply(200, {"name":"ido4pro","id":idCustomer,"city":"plougonvelin"}, [ 'Vary',
       'Origin, Accept-Encoding',
@@ -319,7 +324,7 @@ test("updateAll", (t) => {
       // return false for not matched
 
       console.log('actualQueryObject',actualQueryObject)
-      return actualQueryObject.where.name == 'ido4pro' ? true : false  ;
+      return actualQueryObject.where = '{"name":"ido4pro"}' ? true : false  ;
     })
     .reply(200, {"count":1}, [ 'Vary',
       'Origin, Accept-Encoding',
@@ -415,7 +420,7 @@ test("upsertWithWhere", (t) => {
       // return false for not matched
 
       console.log('actualQueryObject',actualQueryObject)
-      return actualQueryObject.where.name == 'ido4pro' ? true : false  ;
+      return actualQueryObject.where= '{"name":"ido4pro"}' ? true : false  ;
     })
     .reply(200, {"count":1}, [ 'Vary',
       'Origin, Accept-Encoding',

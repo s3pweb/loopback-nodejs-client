@@ -1,6 +1,8 @@
 "use strict";
 
 const rest = require('restler');
+const axios = require('axios')
+
 const LoopbackModel = require(__dirname + '/LoopbackModel.js');
 
 const debug = require('debug')('LoopBackClient')

@@ -40,7 +40,7 @@ class LoopbackModel {
 
   post(url, data, query) {
 
-    debug('post',url,this.headers,data,query)
+    debug('post',url,this.headers,data,query)    
 
     return new Promise((resolve, reject) => {
       const options = {
@@ -146,12 +146,26 @@ class LoopbackModel {
     return this.post(url, data);
   }
 
-  count(where) {
+  count(query) {
+
+    if(query.where)
+    {
+      query.where = JSON.stringify(query.where)
+    }
+
     const url = `${this.baseUrl}/${this.model}/count`;
-    return this.get(url, where);
+    return this.get(url, query);
   }
 
   updateAll(query, data) {
+
+    if(query.where)
+    {
+      query.where = JSON.stringify(query.where)
+    }
+
+    
+
     const url = `${this.baseUrl}/${this.model}/update`;
     return this.post(url, data, query);
   }
@@ -166,12 +180,23 @@ class LoopbackModel {
     return this.patch(url, data);
   }
 
-  find(filter) {
+  find(query) {
+    if(query.filter)
+    {
+      query.filter = JSON.stringify(query.filter)
+    }
+    
     const url = `${this.baseUrl}/${this.model}`;
-    return this.get(url, filter);
+    return this.get(url, query);
   }
 
   findOne(query) {
+
+    if(query.filter)
+    {
+      query.filter = JSON.stringify(query.filter)
+    }
+
     const url = `${this.baseUrl}/${this.model}/findOne`;
     return this.get(url, query);
   }
@@ -182,6 +207,13 @@ class LoopbackModel {
   }
 
   upsertWithWhere(query,data) {
+    
+    if(query.where)
+    {
+      query.where = JSON.stringify(query.where)
+    }
+    
+
     const url = `${this.baseUrl}/${this.model}/upsertWithWhere`;
     return this.post(url,data,query);
   }
