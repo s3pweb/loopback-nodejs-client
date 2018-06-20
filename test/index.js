@@ -34,28 +34,7 @@ test("token", (t) => {
         "ttl":1209600,
         "created":"2017-01-03T12:51:41.687Z",
         "userId":"5752f3cde8e5812c2592eebb",
-      }, [ 'Vary',
-        'Origin, Accept-Encoding',
-        'Access-Control-Allow-Credentials',
-        'true',
-        'X-XSS-Protection',
-        '1; mode=block',
-        'X-Frame-Options',
-        'DENY',
-        'X-Download-Options',
-        'noopen',
-        'X-Content-Type-Options',
-        'nosniff',
-        'Content-Type',
-        'application/json; charset=utf-8',
-        'Content-Length',
-        '915',
-        'ETag',
-        'W/"393-wbs82x3xuxWwFOsv4/Atdw"',
-        'Date',
-        'Tue, 03 Jan 2017 12:51:41 GMT',
-        'Connection',
-        'close' ]);
+      });
 
   loopbackClient = new LoopbackClient('http://localhost:42001/api',user,password);
   loopbackClient.setHeaders({'x-testheader': 'yes'})

@@ -153,13 +153,23 @@ var LoopbackModel = function () {
     }
   }, {
     key: 'count',
-    value: function count(where) {
+    value: function count(query) {
+
+      if (query.where) {
+        query.where = JSON.stringify(query.where);
+      }
+
       var url = this.baseUrl + '/' + this.model + '/count';
-      return this.get(url, where);
+      return this.get(url, query);
     }
   }, {
     key: 'updateAll',
     value: function updateAll(query, data) {
+
+      if (query.where) {
+        query.where = JSON.stringify(query.where);
+      }
+
       var url = this.baseUrl + '/' + this.model + '/update';
       return this.post(url, data, query);
     }
@@ -177,13 +187,22 @@ var LoopbackModel = function () {
     }
   }, {
     key: 'find',
-    value: function find(filter) {
+    value: function find(query) {
+      if (query.filter) {
+        query.filter = JSON.stringify(query.filter);
+      }
+
       var url = this.baseUrl + '/' + this.model;
-      return this.get(url, filter);
+      return this.get(url, query);
     }
   }, {
     key: 'findOne',
     value: function findOne(query) {
+
+      if (query.filter) {
+        query.filter = JSON.stringify(query.filter);
+      }
+
       var url = this.baseUrl + '/' + this.model + '/findOne';
       return this.get(url, query);
     }
@@ -196,6 +215,11 @@ var LoopbackModel = function () {
   }, {
     key: 'upsertWithWhere',
     value: function upsertWithWhere(query, data) {
+
+      if (query.where) {
+        query.where = JSON.stringify(query.where);
+      }
+
       var url = this.baseUrl + '/' + this.model + '/upsertWithWhere';
       return this.post(url, data, query);
     }

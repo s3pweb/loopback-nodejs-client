@@ -59,7 +59,6 @@
   "dependencies": {
     "axios": "^0.18.0",
     "debug": "^3.1.0",
-    "nock": "^9.0.2",
-    "restler": "^3.4.0"
+    "nock": "^9.0.2"    
   }
 }

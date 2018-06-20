@@ -1,6 +1,6 @@
 "use strict";
 
-const rest = require('restler');
+const axios = require('axios')
 
 const debug = require('debug')('LoopBackClient')
 
@@ -10,58 +10,47 @@ class LoopbackModel {
     this.headers = tokenClient.headers;
     this.headers.authorization = tokenClient.getToken();
     this.model = model
+
+    this.client = axios.create(
+      {
+       headers: this.headers,
+       timeout: 5000,
+     });
   }
 
   get(url, query) {
     return new Promise((resolve, reject) => {
 
-      debug('get',url,this.headers,query)
+      debug('get',url,this.headers,query)      
 
-      rest.get(url, {
-          headers: this.headers,
-          query: query
-        }
-      ).on('complete', function (result, response) {
-        if (result instanceof Error) {
-          reject(result.message);
+      this.client.get(url,{ params: query }).then((response)=>{
+        debug('response',response.data)
+        resolve(response.data)
+      })
+      .catch((error)=>{
+        reject(error)
+      })
 
-        } else {
-          if (response.statusCode !== 200) {
-            reject(result)
-          }
-          else {
-            resolve(result);
-          }
-
-        }
-      });
     });
   }
 
   post(url, data, query) {
 
     debug('post',url,this.headers,data,query)    
+    debug('url',url) 
+    debug('data',data) 
+    debug('query',query) 
+    
 
     return new Promise((resolve, reject) => {
-      const options = {
-        headers: this.headers
-      };
-      if (query) {
-        options.query = query
-      }
-      rest.postJson(url, data, options
-      ).on('complete', function (result, response) {
-        if (result instanceof Error) {
-          reject(result.message);
-        } else {
-          if (response.statusCode !== 200) {
-            reject(result)
-          }
-          else {
-            resolve(result);
-          }
-        }
-      });
+
+      this.client.post(url,data,{params: query}).then((response)=>{
+        debug('response',response.data)
+        resolve(response.data)
+      })
+      .catch((error)=>{
+        reject(error)
+      })
     });
   }
 
@@ -70,21 +59,14 @@ class LoopbackModel {
     debug('put',url,this.headers,data)
 
     return new Promise((resolve, reject) => {
-      rest.putJson(url, data, {
-          headers: this.headers
-        }
-      ).on('complete', function (result, response) {
-        if (result instanceof Error) {
-          reject(result.message);
-        } else {
-          if(response.statusCode !== 200) {
-            reject(result)
-          }
-          else {
-            resolve(result);
-          }
-        }
-      });
+
+      this.client.put(url,data).then((response)=>{
+        debug('response',response.data)
+        resolve(response.data)
+      })
+      .catch((error)=>{
+        reject(error)
+      })
 
     });
   }
@@ -94,21 +76,14 @@ class LoopbackModel {
     debug('patch',url,this.headers,data)
 
     return new Promise((resolve, reject) => {
-      rest.patchJson(url, data, {
-          headers: this.headers
-        }
-      ).on('complete', function (result, response) {
-        if (result instanceof Error) {
-          reject(result.message);
-        } else {
-          if(response.statusCode !== 200) {
-            reject(result)
-          }
-          else {
-            resolve(result);
-          }
-        }
-      });
+
+      this.client.patch(url,data).then((response)=>{
+        debug('response',response.data)
+        resolve(response.data)
+      })
+      .catch((error)=>{
+        reject(error)
+      })
 
     });
   }
@@ -118,21 +93,14 @@ class LoopbackModel {
     debug('delete',url,this.headers)
 
     return new Promise((resolve, reject) => {
-      rest.del(url, {
-          headers: this.headers
-        }
-      ).on('complete', function (result, response) {
-        if (result instanceof Error) {
-          reject(result.message);
-        } else {
-          if (response.statusCode !== 200) {
-            reject(result)
-          }
-          else {
-            resolve(result);
-          }
-        }
-      });
+
+      this.client.delete(url).then((response)=>{
+        debug('response',response.data)
+        resolve(response.data)
+      })
+      .catch((error)=>{
+        reject(error)
+      })
     });
   }
 
@@ -148,25 +116,13 @@ class LoopbackModel {
 
   count(query) {
 
-    if(query.where)
-    {
-      query.where = JSON.stringify(query.where)
-    }
-
     const url = `${this.baseUrl}/${this.model}/count`;
     return this.get(url, query);
   }
 
   updateAll(query, data) {
 
-    if(query.where)
-    {
-      query.where = JSON.stringify(query.where)
-    }
-
-    
-
-    const url = `${this.baseUrl}/${this.model}/update`;
+   const url = `${this.baseUrl}/${this.model}/update`;
     return this.post(url, data, query);
   }
 
@@ -181,23 +137,14 @@ class LoopbackModel {
   }
 
   find(query) {
-    if(query.filter)
-    {
-      query.filter = JSON.stringify(query.filter)
-    }
-    
+       
     const url = `${this.baseUrl}/${this.model}`;
     return this.get(url, query);
   }
 
   findOne(query) {
 
-    if(query.filter)
-    {
-      query.filter = JSON.stringify(query.filter)
-    }
-
-    const url = `${this.baseUrl}/${this.model}/findOne`;
+     const url = `${this.baseUrl}/${this.model}/findOne`;
     return this.get(url, query);
   }
 
@@ -206,13 +153,7 @@ class LoopbackModel {
     return this.del(url);
   }
 
-  upsertWithWhere(query,data) {
-    
-    if(query.where)
-    {
-      query.where = JSON.stringify(query.where)
-    }
-    
+  upsertWithWhere(query,data) {     
 
     const url = `${this.baseUrl}/${this.model}/upsertWithWhere`;
     return this.post(url,data,query);
@@ -235,6 +176,5 @@ class LoopbackModel {
     return this.post(url,data,query);
   }
 }
-
 
 module.exports = LoopbackModel;

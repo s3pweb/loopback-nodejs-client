@@ -5,6 +5,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var rest = require('restler');
+var axios = require('axios');
+
 var LoopbackModel = require(__dirname + '/LoopbackModel.js');
 
 var debug = require('debug')('LoopBackClient');

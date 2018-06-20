@@ -1,6 +1,5 @@
 "use strict";
 
-const rest = require('restler');
 const axios = require('axios')
 
 const LoopbackModel = require(__dirname + '/LoopbackModel.js');
@@ -53,24 +52,23 @@ class LoopbackClient {
 
         debug('post',url,data)
 
-        rest.postJson(url,
-          data, options).on('complete', (result, response) => {
+        axios.post(url,data).then((response)=>{
+          debug('response',response.data)
 
-          debug(result)
-
-          if (result instanceof Error) {
-            reject(result.message);
-          } else {
-
-            if (response.statusCode !== 200) {
-              reject(result)
-            }
-            else {
-              this.token = result.id;
-              resolve(this.token);
-            }            
+          if(response && response.data && response.data.id)
+          {
+            this.token = response.data.id;
+            resolve(this.token);
           }
-        });
+          else{
+            reject('bad response',response)
+          }
+          
+        })
+        .catch((error)=>{
+          reject(error)
+        })
+       
       }
     });
   }
