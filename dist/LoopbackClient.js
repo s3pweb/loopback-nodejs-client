@@ -4,7 +4,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var rest = require('restler');
 var axios = require('axios');
 
 var LoopbackModel = require(__dirname + '/LoopbackModel.js');
@@ -65,21 +64,17 @@ var LoopbackClient = function () {
 
           debug('post', url, data);
 
-          rest.postJson(url, data, options).on('complete', function (result, response) {
+          axios.post(url, data).then(function (response) {
+            debug('response', response.data);
 
-            debug(result);
-
-            if (result instanceof Error) {
-              reject(result.message);
+            if (response && response.data && response.data.id) {
+              _this.token = response.data.id;
+              resolve(_this.token);
             } else {
-
-              if (response.statusCode !== 200) {
-                reject(result);
-              } else {
-                _this.token = result.id;
-                resolve(_this.token);
-              }
+              reject('bad response', response);
             }
+          }).catch(function (error) {
+            reject(error);
           });
         }
       });

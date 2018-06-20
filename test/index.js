@@ -21,12 +21,7 @@ var idCustomer;
 test("token", (t) => {
    t.plan(1)
 
-  nock('http://localhost:42001', {
-    "encodedQueryParams":true,
-    "reqheaders": {
-      'x-testheader': 'yes'
-    }
-    })
+  nock('http://localhost:42001')
     .post('/api/users/login', {"email":user,"password":password})
     .query({"include":"user"})
     .reply(200,
