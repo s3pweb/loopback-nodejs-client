@@ -194,6 +194,24 @@ var LoopbackModel = function () {
       var url = this.baseUrl + '/' + this.model + '/' + name;
       return this.post(url, data, query);
     }
+  }, {
+    key: 'remoteGet',
+    value: function remoteGet(name, query) {
+      var url = this.baseUrl + '/' + this.model + '/' + name;
+      return this.get(url, query);
+    }
+  }, {
+    key: 'remotePut',
+    value: function remotePut(name, data) {
+      var url = this.baseUrl + '/' + this.model + '/' + name;
+      return this.put(url, data);
+    }
+  }, {
+    key: 'remotePatch',
+    value: function remotePatch(name, data) {
+      var url = this.baseUrl + '/' + this.model + '/' + name;
+      return this.patch(url, data);
+    }
   }]);
 
   return LoopbackModel;
