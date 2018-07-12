@@ -172,10 +172,12 @@ loopbackClientWithAuth.createToken()
 
   remote(customRoute,query,data) -> your customRoute name (example: greet) see https://loopback.io/doc/en/lb3/Remote-methods.html
 
-  
+  remoteGet(customRoute,query)
 
+  remotePut(customRoute,data)
 
-  
+  remotePatch(customRoute,data)
+
   
   Check the test/index.js for more usage
   

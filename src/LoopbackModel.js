@@ -175,6 +175,22 @@ class LoopbackModel {
     const url = `${this.baseUrl}/${this.model}/${name}`;
     return this.post(url,data,query);
   }
+
+
+  remoteGet(name,query) {
+    const url = `${this.baseUrl}/${this.model}/${name}`;
+    return this.get(url,query);
+  }
+
+  remotePut(name,data) {
+    const url = `${this.baseUrl}/${this.model}/${name}`;
+    return this.put(url,data);
+  }
+
+  remotePatch(name,data) {
+    const url = `${this.baseUrl}/${this.model}/${name}`;
+    return this.patch(url,data);
+  }
 }
 
 module.exports = LoopbackModel;
