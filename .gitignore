@@ -4,6 +4,7 @@ logs
 node_modules
 tmp
 coverage
+.nyc_output
 npm-debug.log
 
 .idea

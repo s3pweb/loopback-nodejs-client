@@ -1,10 +1,19 @@
 "use strict";
 
-const axios = require('axios')
+const fetch = typeof window === 'undefined' ? require('node-fetch') : window.fetch;
 
-const LoopbackModel = require(__dirname + '/LoopbackModel.js');
+const debug = require("debug")("LoopBackClient");
 
-const debug = require('debug')('LoopBackClient')
+const LoopbackModel = require(__dirname + "/LoopbackModel.js");
+
+
+const handleErrors = response => {
+  debug(response);
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
+  return response.json();
+};
 
 class LoopbackClient {
   constructor(baseUrl, user, password) {
@@ -12,7 +21,10 @@ class LoopbackClient {
     this.password = password;
     this.token = null;
     this.baseUrl = baseUrl;
-    this.headers = {};
+    this.headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    };
   }
 
   setHeaders(headers) {
@@ -28,17 +40,14 @@ class LoopbackClient {
   }
 
   setCustomLoginPath(path) {
-
-    this.customLoginPath = path
-
+    this.customLoginPath = path;
   }
 
   createToken() {
     return new Promise((resolve, reject) => {
       if (this.token) {
         resolve(this.token);
-      }
-      else {
+      } else {
         const data = {
           email: this.user,
           password: this.password
@@ -48,27 +57,29 @@ class LoopbackClient {
           headers: this.headers
         };
 
-        var url = this.baseUrl + (this.customLoginPath ? this.customLoginPath : '/users/login?include=user')
+        var url =
+          this.baseUrl +
+          (this.customLoginPath
+            ? this.customLoginPath
+            : "/users/login?include=user");
 
-        debug('post',url,data)
+        debug("post", url, data, this.headers);
 
-        axios.post(url,data).then((response)=>{
-          debug('response',response.data)
+        fetch(url, {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: this.headers
+        })
+          .then(handleErrors)
+          .then(result => {
+            this.token = result.id;
 
-          if(response && response.data && response.data.id)
-          {
-            this.token = response.data.id;
+            debug('r=',result)
             resolve(this.token);
-          }
-          else{
-            reject('bad response',response)
-          }
-          
-        })
-        .catch((error)=>{
-          reject(error)
-        })
-       
+          })
+          .catch(error => {            
+            reject(error);
+          });
       }
     });
   }

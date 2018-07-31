@@ -1,112 +1,84 @@
 "use strict";
 
-const axios = require('axios')
+const debug = require("debug")("LoopBackClient");
 
-const debug = require('debug')('LoopBackClient')
+const fetch =
+  typeof window === "undefined" ? require("node-fetch") : window.fetch;
+const qs = require("qs");
+
+const handleErrors = response => {
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
+  return response.json();
+};
+
+const getQueryParams = query =>
+  query && qs.stringify(query) ? "?" + qs.stringify(query) : "";
 
 class LoopbackModel {
   constructor(model, tokenClient) {
     this.baseUrl = tokenClient.getBaseUrl();
     this.headers = tokenClient.headers;
     this.headers.authorization = tokenClient.getToken();
-    this.model = model
-
-    this.client = axios.create(
-      {
-       headers: this.headers,
-       timeout: 5000,
-     });
+    this.model = model;
+   
   }
 
   get(url, query) {
-    return new Promise((resolve, reject) => {
-
-      debug('get',url,this.headers,query)      
-
-      this.client.get(url,{ params: query }).then((response)=>{
-        debug('response',response.data)
-        resolve(response.data)
-      })
-      .catch((error)=>{
-        reject(error)
-      })
-
-    });
+    debug("get", url, this.headers, query);
+    return fetch(url + getQueryParams(query), {
+      method: "GET",
+      headers: this.headers
+    }).then(handleErrors);
   }
 
   post(url, data, query) {
+    debug("post", url, this.headers, data, query);
+    debug("url", url);
+    debug("data", data);
+    debug("query", query);
 
-    debug('post',url,this.headers,data,query)    
-    debug('url',url) 
-    debug('data',data) 
-    debug('query',query) 
-    
-
-    return new Promise((resolve, reject) => {
-
-      this.client.post(url,data,{params: query}).then((response)=>{
-        debug('response',response.data)
-        resolve(response.data)
-      })
-      .catch((error)=>{
-        reject(error)
-      })
-    });
+    return fetch(url + getQueryParams(query), {
+      method: 'POST',
+      headers: this.headers,
+      body: JSON.stringify(data)
+    }).then(handleErrors);
   }
 
   put(url, data) {
+    debug("put", url, this.headers, data);
 
-    debug('put',url,this.headers,data)
-
-    return new Promise((resolve, reject) => {
-
-      this.client.put(url,data).then((response)=>{
-        debug('response',response.data)
-        resolve(response.data)
-      })
-      .catch((error)=>{
-        reject(error)
-      })
-
-    });
+    return fetch(url, {
+      method: 'PUT',
+      headers: this.headers,
+      body: JSON.stringify(data)
+    }).then(handleErrors);
   }
 
   patch(url, data) {
+    debug("patch", url, this.headers, data);
 
-    debug('patch',url,this.headers,data)
-
-    return new Promise((resolve, reject) => {
-
-      this.client.patch(url,data).then((response)=>{
-        debug('response',response.data)
-        resolve(response.data)
-      })
-      .catch((error)=>{
-        reject(error)
-      })
-
-    });
+    return fetch(url, {
+      method: 'PATCH',
+      headers: this.headers,
+      body: JSON.stringify(data)
+    }).then(handleErrors);
   }
 
   del(url) {
+    debug("delete", url, this.headers);
 
-    debug('delete',url,this.headers)
+    return fetch(url, {
+      method: 'DELETE',
+      headers: this.headers,
+    }).then(handleErrors);
 
-    return new Promise((resolve, reject) => {
-
-      this.client.delete(url).then((response)=>{
-        debug('response',response.data)
-        resolve(response.data)
-      })
-      .catch((error)=>{
-        reject(error)
-      })
-    });
   }
 
-  findById(data) {
+  findById(data,options) {
     const url = `${this.baseUrl}/${this.model}/${data.id}`;
-    return this.get(url, {filter: data.filter});
+    return this.get(url, { filter: data.filter });
   }
 
   create(data) {
@@ -115,14 +87,12 @@ class LoopbackModel {
   }
 
   count(query) {
-
     const url = `${this.baseUrl}/${this.model}/count`;
     return this.get(url, query);
   }
 
   updateAll(query, data) {
-
-   const url = `${this.baseUrl}/${this.model}/update`;
+    const url = `${this.baseUrl}/${this.model}/update`;
     return this.post(url, data, query);
   }
 
@@ -137,14 +107,12 @@ class LoopbackModel {
   }
 
   find(query) {
-       
     const url = `${this.baseUrl}/${this.model}`;
     return this.get(url, query);
   }
 
   findOne(query) {
-
-     const url = `${this.baseUrl}/${this.model}/findOne`;
+    const url = `${this.baseUrl}/${this.model}/findOne`;
     return this.get(url, query);
   }
 
@@ -153,43 +121,39 @@ class LoopbackModel {
     return this.del(url);
   }
 
-  upsertWithWhere(query,data) {     
-
+  upsertWithWhere(query, data) {
     const url = `${this.baseUrl}/${this.model}/upsertWithWhere`;
-    return this.post(url,data,query);
+    return this.post(url, data, query);
   }
 
   replaceOrCreate(data) {
     const url = `${this.baseUrl}/${this.model}/replaceOrCreate`;
-    return this.post(url,data);
+    return this.post(url, data);
   }
 
-  remote(name,query,data) {
-
-    if(query && !data)   
-    {
-      data = query
-      query = null
+  remote(name, query, data) {
+    if (query && !data) {
+      data = query;
+      query = null;
     }
 
     const url = `${this.baseUrl}/${this.model}/${name}`;
-    return this.post(url,data,query);
+    return this.post(url, data, query);
   }
 
-
-  remoteGet(name,query) {
+  remoteGet(name, query) {
     const url = `${this.baseUrl}/${this.model}/${name}`;
-    return this.get(url,query);
+    return this.get(url, query);
   }
 
-  remotePut(name,data) {
+  remotePut(name, data) {
     const url = `${this.baseUrl}/${this.model}/${name}`;
-    return this.put(url,data);
+    return this.put(url, data);
   }
 
-  remotePatch(name,data) {
+  remotePatch(name, data) {
     const url = `${this.baseUrl}/${this.model}/${name}`;
-    return this.patch(url,data);
+    return this.patch(url, data);
   }
 }
 
