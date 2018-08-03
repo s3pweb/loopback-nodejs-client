@@ -178,8 +178,15 @@ loopbackClientWithAuth.createToken()
 
   remotePatch(customRoute,data)
 
-  
-  Check the test/index.js for more usage
+# Options
+
+  All methods accepts an option object to define timeout and/or additionnals headers
+
+  find({},{ timeout:2000, headers:{'TAG_ID':'146464646464}})
+
+# Unit Tests
+
+  Check the test/index.js
   
 
 # DEBUG

@@ -45,7 +45,8 @@ class LoopbackClient {
 
   createToken() {
     return new Promise((resolve, reject) => {
-      if (this.token) {
+      if (this.token) {   
+        debug('current token',this.token)    
         resolve(this.token);
       } else {
         const data = {
@@ -75,7 +76,7 @@ class LoopbackClient {
             this.token = result.id;
 
             debug('r=',result)
-            resolve(this.token);
+            resolve(result.id);
           })
           .catch(error => {            
             reject(error);

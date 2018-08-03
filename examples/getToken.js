@@ -1,30 +1,32 @@
-var nock = require('nock');
+var nock = require("nock");
 
-nock.recorder.rec();
+// nock.recorder.rec();
 
-const user = "admin@s3pweb.com";
+const user = "user@mydomain.com";
 const password = "admin";
 
 var LoopbackClient = require("../src");
+var loopbackClient
 
 var getToken = async () => {
+  try {
+    loopbackClient = new LoopbackClient(
+      "http://toto.requestcatcher.com/"
+    );
 
-    try {
-        var loopbackClient = new LoopbackClient(
-            "http://localhost:13000/api",
-            user,
-            password
-          );
-        
-          console.log("loopbackClient", loopbackClient);
-        
-          var token = await loopbackClient.createToken();
-        
-          console.log("token=", token);      
-    } catch (error) {
-        console.log('error=',error)
-    }
-  
+    console.log("loopbackClient", loopbackClient);
+
+    //   var token = await loopbackClient.createToken();
+  } catch (error) {
+    console.log("error=", error);
+  }
 };
 
-getToken()
+getToken().then(async () => {
+  let SMS = loopbackClient.getModel("test");
+
+  let smsArray = await SMS.find(
+    {},
+    { headers: { "User-Agent": "toto", rty: 15 } }
+  );
+});
