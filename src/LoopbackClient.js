@@ -76,7 +76,7 @@ class LoopbackClient {
             this.token = result.id || result.data.id;
 
             debug('r=',result)
-            resolve(result.id);
+            resolve(this.token);
           })
           .catch(error => {            
             reject(error);
