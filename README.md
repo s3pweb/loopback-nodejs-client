@@ -148,7 +148,7 @@ loopbackClientWithAuth.createToken()
 
   count(query) --> query = { where : {name: 'xxx'} }, where = { where: {and: [{name: 'xxx'},{city: 'xxx'}] 
 
-  *NOT AVAILABLE IN LLOPBACK EXTERNALLY * updateAll(query,data) --> query = { where : {name: 'xxx'} }, where = { where: {and: [{name: 'xxx'},{city: 'xxx'}] 
+  *NOT AVAILABLE IN LOOPBACK EXTERNALY * updateAll(query,data) --> query = { where : {name: 'xxx'} }, where = { where: {and: [{name: 'xxx'},{city: 'xxx'}] 
 
   updateById(id,data)
 
