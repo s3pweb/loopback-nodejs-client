@@ -6,14 +6,14 @@ const fetch =
   typeof window === "undefined" ? require("node-fetch") : window.fetch;
 const qs = require("qs");
 
-const handleErrors = response => {
+const handleErrors = (response) => {
   if (!response.ok) {
     throw Error(response.statusText);
   }
   return response.json();
 };
 
-const getQueryParams = query =>
+const getQueryParams = (query) =>
   query && qs.stringify(query) ? "?" + qs.stringify(query) : "";
 
 class LoopbackModel {
@@ -24,31 +24,29 @@ class LoopbackModel {
     this.model = model;
   }
 
-  mergeHeaders(h1,h2)
-  {
-    var keys = Object.keys(h2)
+  mergeHeaders(h1, h2) {
+    var keys = Object.keys(h2);
 
     for (let index = 0; index < keys.length; index++) {
       const key = keys[index];
 
-      h1[key] = h2[key]
-      
+      h1[key] = h2[key];
     }
 
-    return h1
+    return h1;
   }
 
   get(url, query, options) {
-
-
     var params = {
       method: "GET",
-      headers: options && options.headers ? this.mergeHeaders(this.headers,options.headers):this.headers,
-    }
+      headers:
+        options && options.headers
+          ? this.mergeHeaders(this.headers, options.headers)
+          : this.headers,
+    };
 
-    if(options && options.timeout)
-    {
-      params.timeout = options.timeout
+    if (options && options.timeout) {
+      params.timeout = options.timeout;
     }
 
     debug("get", url, this.headers, query);
@@ -62,13 +60,20 @@ class LoopbackModel {
     debug("data", data);
     debug("query", query);
 
-    var params ={
+    var params = {
       method: "POST",
-      headers: options && options.headers ? this.mergeHeaders(this.headers,options.headers):this.headers,
-      body: JSON.stringify(data)
+      headers:
+        options && options.headers
+          ? this.mergeHeaders(this.headers, options.headers)
+          : this.headers,
+      body: JSON.stringify(data),
+    };
+
+    if (options && options.timeout) {
+      params.timeout = options.timeout;
     }
 
-    return fetch(url + getQueryParams(query), params ).then(handleErrors);
+    return fetch(url + getQueryParams(query), params).then(handleErrors);
   }
 
   put(url, data, options) {
@@ -76,34 +81,52 @@ class LoopbackModel {
 
     var params = {
       method: "PUT",
-      headers: options && options.headers ? this.mergeHeaders(this.headers,options.headers):this.headers,
-      body: JSON.stringify(data)
+      headers:
+        options && options.headers
+          ? this.mergeHeaders(this.headers, options.headers)
+          : this.headers,
+      body: JSON.stringify(data),
+    };
+
+    if (options && options.timeout) {
+      params.timeout = options.timeout;
     }
 
-    return fetch(url,params).then(handleErrors);
+    return fetch(url, params).then(handleErrors);
   }
 
   patch(url, data, options) {
     debug("patch", url, this.headers, data);
 
-    var params ={
+    var params = {
       method: "PATCH",
-      headers: options && options.headers ? this.mergeHeaders(this.headers,options.headers):this.headers,
-      body: JSON.stringify(data)
+      headers:
+        options && options.headers
+          ? this.mergeHeaders(this.headers, options.headers)
+          : this.headers,
+      body: JSON.stringify(data),
+    };
+
+    if (options && options.timeout) {
+      params.timeout = options.timeout;
     }
 
-    return fetch(url,params ).then(handleErrors);
+    return fetch(url, params).then(handleErrors);
   }
 
   del(url, options) {
     debug("delete", url, this.headers);
 
-    var params ={
+    var params = {
       method: "DELETE",
-      headers: this.headers
+      headers: this.headers,
+    };
+
+    if (options && options.timeout) {
+      params.timeout = options.timeout;
     }
 
-    return fetch(url, params ).then(handleErrors);
+    return fetch(url, params).then(handleErrors);
   }
 
   findById(data, options) {
