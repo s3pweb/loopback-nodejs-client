@@ -43,7 +43,7 @@
   },
   "homepage": "https://github.com/sguilly/loopback-nodejs-client#readme",
   "devDependencies": {
-    "ava": "1.0.0-beta.6",
+    "ava": "5.2.0",
     "babel-cli": "^6.18.0",
     "babel-core": "^6.21.0",
     "babel-eslint": "^4.1.6",
